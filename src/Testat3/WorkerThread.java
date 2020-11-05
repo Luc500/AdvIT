@@ -7,7 +7,7 @@ import java.net.InetAddress;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-
+//completes tasks, answers Client
 public class WorkerThread extends Thread {
     private DatagramSocket dgSocket;
     private Dispatcher dispatcher;
@@ -20,12 +20,8 @@ public class WorkerThread extends Thread {
     }
     
     public void run() {
+        //tries to grab data from dispatcher - if successful processes it
         while (true) {
-            try {
-                TimeUnit.MILLISECONDS.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             DatagramPacket data = dispatcher.getTask();
             if(data != null){
                 main(data);
@@ -45,6 +41,7 @@ public class WorkerThread extends Thread {
                     return;
                 }
                 String filename = splits[0].substring(5);
+                //finds rw for current File
                 rw currentRw = findRw(filename);
                 if(currentRw == null){
                     send("File was not found",ip);
@@ -68,6 +65,7 @@ public class WorkerThread extends Thread {
                     return;
                 }
                 String filename = splits[0].substring(6);
+                //finds rw for current File
                 rw currentRw = findRw(filename);
                 if(currentRw == null){
                     send("File was not found",ip);
@@ -87,7 +85,7 @@ public class WorkerThread extends Thread {
             e.printStackTrace();
         }
     }
-    
+    //checks if given line is valid
     public Boolean checkLine(int line) {
         if (line > 0 && line % 1 == 0) {
             return true;
@@ -96,13 +94,14 @@ public class WorkerThread extends Thread {
         }
     }
     
+    //replies to Client
     public void send(String answer, InetAddress ip) throws Exception {
         DatagramPacket answerData = new DatagramPacket(answer.getBytes(), answer.length(), ip, 5998);
         dgSocket.send(answerData);
     }
-    
+    //gives back read/write for currently used file
     public rw findRw(String filename){
-        File file = new File("C:\\Users\\lhahn\\IdeaProjects\\Threads\\Files\\" + filename);
+        File file = new File("C:\\Users\\lhahn\\IdeaProjects\\AdvIT\\Files\\" + filename);
         for (rw rw:rws) {
             if(rw.file.equals(file)){
                 return rw;

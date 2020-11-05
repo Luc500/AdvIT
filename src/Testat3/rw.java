@@ -2,7 +2,8 @@ package Testat3;
 
 
 import java.io.*;
-
+//Read Write for a specified File, uses Monitors to synchronize reads and writes
+//takes read/write command from workerThreads
 public class rw {
     File file;
     rwMonitor monitor;
@@ -25,9 +26,11 @@ public class rw {
             return readLine;
             
         } catch (FileNotFoundException e) {
+            monitor.endRead();
             e.printStackTrace();
             return "This File doesn`t exist";
         } catch (IOException e) {
+            monitor.endRead();
             e.printStackTrace();
             return "ERROR";
         }
@@ -69,9 +72,11 @@ public class rw {
             return "Wrote " + data + " in File";
             
         } catch (FileNotFoundException e) {
+            monitor.endWrite();
             e.printStackTrace();
             return "This File doesn't exist";
         } catch (IOException e) {
+            monitor.endWrite();
             e.printStackTrace();
             return "ERROR";
         }

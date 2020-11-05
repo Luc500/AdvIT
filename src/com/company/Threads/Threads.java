@@ -14,11 +14,6 @@ public class Threads extends Thread {
     }
     
     public void run() {
-        /*try {
-            Thread.sleep((int) (Math.random() * 1000));
-        } catch (Exception e) {
-        }
-        System.out.println("Hello World (ID = " + id + ")");*/
     
         long startTime = System.currentTimeMillis();
         long sum = 0;

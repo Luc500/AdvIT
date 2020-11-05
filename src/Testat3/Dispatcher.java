@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+//starts workerThreads, passes Tasks to them
 public class Dispatcher{
     private BlockingQueue<DatagramPacket> workerQueue;
     private Thread[] workerThreads;
@@ -15,12 +16,14 @@ public class Dispatcher{
         workerQueue = new LinkedBlockingQueue<>();
         workerThreads = new Thread[numberThreads];
         this.rws = rws;
+        //starts worker Threads
         for(Thread thread : workerThreads){
             thread = new WorkerThread(dgSocket,this,rws);
             thread.start();
         }
     }
     
+    //Task from Server gets added to Queue
     public void addTask(DatagramPacket data) {
         try{
             workerQueue.put(data);
@@ -28,7 +31,7 @@ public class Dispatcher{
             e.printStackTrace();
         }
     }
-    
+    //Worker Thread removed Task from Queue - BlockingQueue inherently Thread proof
     public DatagramPacket getTask() {
         try{
             return workerQueue.take();

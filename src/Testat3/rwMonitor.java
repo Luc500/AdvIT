@@ -1,6 +1,6 @@
 package Testat3;
 
-
+//monitors one rw object, orders read/write on a single file in case of simultaneous access through different threads
 public class rwMonitor {
     private String file;
     private int waitingWrite = 0;
@@ -13,6 +13,7 @@ public class rwMonitor {
     
     synchronized public void startRead() {
         try {
+            //waits for waiting writer --> Writers priority
             while (currentWrite > 0 || waitingWrite > 0) {
                 System.out.println("I have to wait to read " + file);
                 wait();

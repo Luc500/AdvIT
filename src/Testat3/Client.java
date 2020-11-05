@@ -1,3 +1,9 @@
+/*
+Created by Luca Hahn and Christoph Mangold
+on 5.11.20
+hahn.luca@yahoo.de christoph.mangold@freenet.de
+ */
+
 package Testat3;
 
 import java.net.DatagramPacket;
@@ -5,12 +11,13 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Scanner;
 
+//Sends user input to Server
 public class Client {
     public static void main(String[] args) throws Exception {
         DatagramSocket dgSocket = new DatagramSocket(5998);
         Scanner s = new Scanner(System.in);
         InetAddress ip = InetAddress.getLocalHost();
-        
+        //Takes user input - UDP connection to Server
         while (true) {
             System.out.println("Type in command");
             String msg = s.nextLine();
