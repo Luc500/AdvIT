@@ -18,8 +18,8 @@ public class Client {
             DatagramPacket data = new DatagramPacket(msg.getBytes(), msg.length(), ip, 5999);
             dgSocket.send(data);
             
-            byte[] buffer = new byte[1024];
-            DatagramPacket answerData = new DatagramPacket(buffer,1024);
+            byte[] buffer = new byte[65535];
+            DatagramPacket answerData = new DatagramPacket(buffer,65535);
             dgSocket.receive(answerData);
             String output = new String(answerData.getData(),0, answerData.getLength());
             System.out.println(output);
